@@ -1,0 +1,17 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+a {
+  @apply text-primary-500;
+  @apply outline-none;
+  @apply rounded-sm;
+
+  &:focus {
+    @apply shadow-outline;
+  }
+
+  &:hover {
+    @apply text-primary-700;
+  }
+}
