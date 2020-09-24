@@ -1,12 +1,22 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-import auth from "./auth";
+import { useAccessor } from "typed-vuex";
+
+import * as user from "./modules/user.module";
 
 Vue.use(Vuex);
 
-export const store = new Vuex.Store({
+const storePattern = {
   modules: {
-    auth
-  }
-});
+    user
+  },
+  strict: process.env.NODE_ENV !== "production"
+};
+
+const store = new Vuex.Store(storePattern);
+const accessor = useAccessor(store, storePattern);
+
+Vue.prototype.$accessor = accessor;
+
+export { accessor, store };

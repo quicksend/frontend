@@ -23,7 +23,9 @@
 
         <checkbox ref="rememberMe" label="Remember Me" name="remember-me" />
 
-        <v-button :disabled="canSubmit" type="submit">Login</v-button>
+        <v-button ref="submitButton" :disabled="$v.$invalid" type="submit">
+          Login
+        </v-button>
       </v-form>
 
       <p class="login__recaptcha">
@@ -69,29 +71,32 @@ import VInput from "@/components/VInput.vue";
 export default class Login extends Vue {
   @Ref() private readonly form!: VForm;
   @Ref() private readonly rememberMe!: Checkbox;
+  @Ref() private readonly submitButton!: VButton;
 
   @Validate({ required }) private password = "";
   @Validate({ required }) private username = "";
 
-  get canSubmit() {
-    return !(this.$v.password.required && this.$v.username.required);
-  }
+  private async login() {
+    const recaptcha = await this.$recaptcha("login");
 
-  async login() {
-    try {
-      const recaptcha = await this.$recaptcha("login");
+    this.form.disable();
+    this.submitButton.disable().load();
 
-      await this.$store.dispatch("auth/login", {
+    this.$accessor.user
+      .login({
         recaptcha,
         rememberMe: this.rememberMe.value,
         password: this.password,
         username: this.username
+      })
+      .then(() => {
+        this.form.hideErrorMessage();
+        this.$router.push({ name: "explorer" });
+      })
+      .catch(error => {
+        this.form.error(error).enable();
+        this.submitButton.finish().enable();
       });
-    } catch (error) {
-      this.form.showError(error && error.message);
-
-      console.error(error);
-    }
   }
 }
 </script>
@@ -102,12 +107,14 @@ export default class Login extends Vue {
   @apply w-full;
 
   &__card {
+    @apply shadow-xl;
     @apply w-full;
 
     max-width: 450px;
 
     @screen sm_max {
       @apply px-5;
+      @apply rounded-none;
       @apply shadow-none;
     }
   }
@@ -118,10 +125,18 @@ export default class Login extends Vue {
     @apply mt-8;
 
     font-size: 15px;
+
+    & a {
+      @apply text-primary-400;
+
+      &:hover {
+        @apply text-primary-600;
+      }
+    }
   }
 
   &__footer-text {
-    @apply text-gray-800;
+    @apply text-white;
   }
 
   &__form {
@@ -138,7 +153,7 @@ export default class Login extends Vue {
   }
 
   &__title {
-    @apply font-bold text-3xl text-center text-gray-800;
+    @apply font-bold text-3xl text-center text-gray-900;
     @apply mb-4;
   }
 }

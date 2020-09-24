@@ -1,6 +1,6 @@
 <template>
-  <div id="layout layout--default">
-    <main id="layout__content">
+  <div id="layout-default">
+    <main id="layout-default__content">
       <slot />
     </main>
   </div>
@@ -13,10 +13,9 @@ import { Component, Vue } from "vue-property-decorator";
 export default class DefaultLayout extends Vue {}
 </script>
 
-<style lang="scss" scoped>
-#layout {
+<style lang="scss">
+#layout-default {
   &__content {
-    @apply px-2;
   }
 }
 </style>

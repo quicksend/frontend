@@ -30,13 +30,10 @@ import { slugify } from "@/utils/slugify";
   }
 })
 export default class VInput extends Vue {
+  @Prop({ default: "" }) private readonly label!: string;
+  @Prop({ default: "" }) private readonly name!: string;
+
   @Ref() private readonly input!: HTMLInputElement;
-
-  @Prop({ default: "" })
-  private readonly label!: string;
-
-  @Prop({ default: "" })
-  private readonly name!: string;
 
   private readonly sluggedLabel = slugify(this.label);
 
@@ -56,15 +53,11 @@ export default class VInput extends Vue {
   @apply mb-6;
 
   &__box {
-    @apply border-2;
-    @apply cursor-pointer;
+    @apply border-2 border-gray-700 rounded;
+    @apply h-4 w-4;
     @apply mr-2;
 
-    border-color: rgba(0, 0, 0, 0.6);
-    border-radius: 4px;
-    height: 16px;
-    width: 16px;
-    transition: background-color 0.1s ease-in;
+    transition: background-color 0.1s ease-in, border-color 0.1s ease-in;
   }
 
   &__checkmark {
@@ -74,11 +67,8 @@ export default class VInput extends Vue {
 
   &__input {
     @apply absolute;
-    @apply cursor-pointer;
+    @apply h-4 w-4;
     @apply opacity-0;
-
-    height: 16px;
-    width: 16px;
   }
 
   &__input:checked ~ &__box {
@@ -90,17 +80,31 @@ export default class VInput extends Vue {
     @apply block;
   }
 
+  &__input:checked:disabled ~ &__box {
+    @apply bg-primary-400;
+    @apply border-primary-400;
+  }
+
+  &__input:not(:checked):disabled ~ &__box {
+    @apply bg-gray-200;
+    @apply border-gray-600;
+  }
+
+  &__input:not(:disabled),
+  &__input:not(:disabled) ~ &__label {
+    @apply cursor-pointer;
+  }
+
   &__input:focus ~ &__box {
     @apply shadow-outline;
   }
 
-  &__input:hover:not(:checked) ~ &__box {
-    border-color: rgba(0, 0, 0, 0.5);
+  &__input:hover:not(:checked):not(:disabled) ~ &__box {
+    @apply bg-gray-300;
   }
 
   &__label {
-    @apply cursor-pointer;
-    @apply font-medium text-primary-800 text-sm;
+    @apply font-medium text-gray-800 text-sm;
     @apply select-none;
 
     margin-top: 1px;

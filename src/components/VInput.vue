@@ -5,24 +5,25 @@
     </label>
 
     <input
+      ref="input"
       class="input__box"
-      :class="{ 'input__box--error': error }"
-      :id="`input-${sluggedLabel}`"
       v-bind="$props"
+      :class="{ 'input__box--error': errorMessage }"
+      :id="`input-${sluggedLabel}`"
       @input="$emit('input', $event.target.value)"
     />
 
-    <div v-if="error" class="input__errors">
+    <div v-if="errorMessage" class="input__errors">
       <div class="input__error">
         <font-awesome-icon class="input__error-icon" size="sm" :icon="errorIcon" />
-        <span class="input__error-message">{{ error }}</span>
+        <span class="input__error-message">{{ errorMessage }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Ref, Vue } from "vue-property-decorator";
 
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
@@ -53,7 +54,9 @@ export default class VInput extends Vue {
   @Prop({ required: true }) readonly label!: string;
   @Prop({ type: [Number, String] }) readonly value!: string | number;
 
-  private error: string | null = null;
+  @Ref() readonly input!: HTMLInputElement;
+
+  private errorMessage: string | null = null;
 
   private get errorIcon() {
     return faExclamationTriangle;
@@ -63,12 +66,16 @@ export default class VInput extends Vue {
     return slugify(this.label);
   }
 
-  hideError() {
-    this.error = null;
+  error(error?: Error | string) {
+    this.errorMessage = typeof error === "string" ? error : (error && error.message) || null;
+
+    return this;
   }
 
-  showError(message?: string) {
-    this.error = message || null;
+  hideErrorMessage() {
+    this.errorMessage = null;
+
+    return this;
   }
 }
 </script>
@@ -79,12 +86,16 @@ export default class VInput extends Vue {
   @apply mb-6;
 
   &__box {
-    @apply border border-solid border-gray-400 rounded-md;
+    @apply border border-solid border-gray-500 rounded-md;
     @apply outline-none;
     @apply px-4 py-2;
-    @apply text-sm text-primary-800;
+    @apply text-sm text-gray-900;
 
     min-height: 45px;
+
+    &:disabled {
+      @apply bg-gray-200;
+    }
 
     &:focus {
       @apply shadow-outline;
@@ -106,7 +117,7 @@ export default class VInput extends Vue {
   }
 
   &__label {
-    @apply font-medium text-sm text-primary-800;
+    @apply font-medium text-sm text-gray-800;
     @apply mb-3;
   }
 }

@@ -4,7 +4,7 @@
       <h1 class="register__title">Create your account</h1>
       <h2 class="register__subtitle">Start uploading your files in no time!</h2>
 
-      <v-form class="register__form" @submit="register">
+      <v-form ref="form" class="register__form" @submit="register">
         <v-input
           ref="usernameInput"
           autocomplete="username"
@@ -12,6 +12,7 @@
           label="Username"
           name="username"
           v-model.lazy.trim="username"
+          @input="validate"
         />
 
         <v-input
@@ -21,6 +22,7 @@
           name="email"
           type="email"
           v-model.lazy.trim="emailAddress"
+          @input="validate"
         />
 
         <v-input
@@ -30,6 +32,7 @@
           name="password"
           type="password"
           v-model.lazy.trim="password"
+          @input="validate"
         />
 
         <v-input
@@ -39,9 +42,12 @@
           name="confirm-password"
           type="password"
           v-model.lazy.trim="passwordConfirmation"
+          @input="validate"
         />
 
-        <v-button :disabled="canSubmit" type="submit">Register</v-button>
+        <v-button ref="submitButton" :disabled="$v.$invalid" type="submit">
+          Register
+        </v-button>
       </v-form>
 
       <p class="register__recaptcha">
@@ -68,6 +74,8 @@ import { Validate } from "vuelidate-property-decorators";
 import { alphaNum, email, minLength, required, sameAs } from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
 
+import { register } from "@/api/auth/register.api";
+
 import Card from "@/components/Card.vue";
 import Checkbox from "@/components/Checkbox.vue";
 import VButton from "@/components/VButton.vue";
@@ -86,8 +94,10 @@ import VInput from "@/components/VInput.vue";
 })
 export default class Register extends Vue {
   @Ref() private readonly emailInput!: VInput;
+  @Ref() private readonly form!: VForm;
   @Ref() private readonly passwordInput!: VInput;
   @Ref() private readonly passwordConfirmationInput!: VInput;
+  @Ref() private readonly submitButton!: VButton;
   @Ref() private readonly usernameInput!: VInput;
 
   @Validate({ email, required })
@@ -102,37 +112,46 @@ export default class Register extends Vue {
   @Validate({ alphaNum, required })
   private username = "";
 
-  get canSubmit() {
-    return !(
-      this.$v.emailAddress.required &&
-      this.$v.password.required &&
-      this.$v.passwordConfirmation.required &&
-      this.$v.username.required
-    );
-  }
-
-  async register() {
+  private async register() {
     if (!this.validate()) return;
+
+    const recaptcha = await this.$recaptcha("register");
+
+    this.form.disable();
+    this.submitButton.disable().load();
+
+    await register({
+      email: this.emailAddress,
+      password: this.password,
+      recaptcha,
+      username: this.username
+    })
+      .then(() => this.form.success("Please check your email for account activation instructions!"))
+      .catch(error => {
+        this.form.error(error).enable();
+        this.submitButton.enable();
+      })
+      .finally(() => this.submitButton.finish());
   }
 
   validate() {
     !this.$v.emailAddress.email
-      ? this.emailInput.showError("Please enter a valid email address!")
-      : this.emailInput.hideError();
+      ? this.emailInput.error("Please enter a valid email address!")
+      : this.emailInput.hideErrorMessage();
 
     !this.$v.password.minLength
-      ? this.passwordInput.showError(`Passwords must be at least ${this.$v.password.$params.minLength.min} characters long!`) // prettier-ignore
-      : this.passwordInput.hideError();
+      ? this.passwordInput.error(`Passwords must be at least ${this.$v.password.$params.minLength.min} characters long!`) // prettier-ignore
+      : this.passwordInput.hideErrorMessage();
 
     !this.$v.passwordConfirmation.sameAsPassword
-      ? this.passwordConfirmationInput.showError("Your passwords do not match, please try again!")
-      : this.passwordConfirmationInput.hideError();
+      ? this.passwordConfirmationInput.error("Your passwords do not match, please try again!")
+      : this.passwordConfirmationInput.hideErrorMessage();
 
     !this.$v.username.alphaNum
-      ? this.usernameInput.showError("Usernames can only contain alphanumerical characters!")
-      : this.usernameInput.hideError();
+      ? this.usernameInput.error("Usernames can only contain alphanumerical characters!")
+      : this.usernameInput.hideErrorMessage();
 
-    return this.$v.$invalid;
+    return !this.$v.$invalid;
   }
 }
 </script>
@@ -143,12 +162,14 @@ export default class Register extends Vue {
   @apply w-full;
 
   &__card {
+    @apply shadow-xl;
     @apply w-full;
 
     max-width: 500px;
 
     @screen sm_max {
       @apply px-5;
+      @apply rounded-none;
       @apply shadow-none;
     }
   }
@@ -159,10 +180,18 @@ export default class Register extends Vue {
     @apply mt-8;
 
     font-size: 15px;
+
+    & a {
+      @apply text-primary-400;
+
+      &:hover {
+        @apply text-primary-600;
+      }
+    }
   }
 
   &__footer-text {
-    @apply text-gray-800;
+    @apply text-white;
   }
 
   &__form {
@@ -179,7 +208,7 @@ export default class Register extends Vue {
   }
 
   &__title {
-    @apply font-bold text-3xl text-center text-gray-800;
+    @apply font-bold text-3xl text-center text-gray-900;
     @apply mb-4;
   }
 }

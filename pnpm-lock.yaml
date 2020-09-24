@@ -6,11 +6,13 @@ dependencies:
   core-js: 3.6.5
   register-service-worker: 1.7.1
   tailwindcss: 1.8.10
+  typed-vuex: 0.1.21_vuex@3.5.1
   vue: 2.6.12
   vue-class-component: 7.2.6_vue@2.6.12
   vue-property-decorator: 8.5.1_vue@2.6.12
   vue-recaptcha-v3: 1.9.0_vue@2.6.12
   vue-router: 3.4.3
+  vue-spinner: 1.0.4
   vuelidate: 0.7.5
   vuelidate-property-decorators: 1.0.28_vue@2.6.12
   vuex: 3.5.1_vue@2.6.12
@@ -37,7 +39,6 @@ devDependencies:
   sass-loader: 8.0.2_sass@1.26.11
   typescript: 3.9.7
   vue-template-compiler: 2.6.12
-  vuex-module-decorators: 1.0.1_vue@2.6.12+vuex@3.5.1
 lockfileVersion: 5.1
 packages:
   /@babel/code-frame/7.10.4:
@@ -9437,6 +9438,14 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==
+  /typed-vuex/0.1.21_vuex@3.5.1:
+    dependencies:
+      vuex: 3.5.1_vue@2.6.12
+    dev: false
+    peerDependencies:
+      vuex: ^3.5.1
+    resolution:
+      integrity: sha512-8XWjS4E/DFXiFfBLQBsdNzXbLdA1rl1lZVsOgnZ7f6UMk/DE9GhyIc7RZPjQnt47d/RVR0QhtGMehfGt3tKbTg==
   /typedarray/0.0.6:
     dev: true
     resolution:
@@ -9772,6 +9781,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-BADg1mjGWX18Dpmy6bOGzGNnk7B/ZA0RxuA6qedY/YJwirMfKXIDzcccmHbQI0A6k5PzMdMloc0ElHfyOoX35A==
+  /vue-spinner/1.0.4:
+    dev: false
+    resolution:
+      integrity: sha512-GNG2F+8BLX201JT/jUX+84Gsi3ZteVQwt9K7mues3ts9FcQ95dGn7uu6a5ndSxdYYUEzfh1KngZiOE0u+l4itA==
   /vue-style-loader/4.1.2:
     dependencies:
       hash-sum: 1.0.2
@@ -9809,20 +9822,6 @@ packages:
       npm: '>= 3.0.0'
     resolution:
       integrity: sha512-GAAG8QAFVp7BFeQlNaThpTbimq3+HypBPNwdkCkHZZeVaD5zmXXfhp357dcUJXHXTZjSln0PvP6wiwLZXkFTwg==
-  /vuex-module-decorators/1.0.1_vue@2.6.12+vuex@3.5.1:
-    dependencies:
-      vue: 2.6.12
-      vuex: 3.5.1_vue@2.6.12
-    dev: true
-    engines:
-      node: '>= 8'
-      npm: '>= 5'
-      yarn: '>= 1'
-    peerDependencies:
-      vue: '>=2'
-      vuex: '3'
-    resolution:
-      integrity: sha512-FLWZsXV5XAtl/bcKUyQFpnSBtpc3wK/7zSdy9oKbyp71mZd4ut5y2zSd219wWW9OG7WUOlVwac4rXFFDVnq7ug==
   /vuex/3.5.1_vue@2.6.12:
     dependencies:
       vue: 2.6.12
@@ -10368,14 +10367,15 @@ specifiers:
   sass: ^1.26.5
   sass-loader: ^8.0.2
   tailwindcss: ^1.8.10
+  typed-vuex: ^0.1.21
   typescript: ~3.9.3
   vue: ^2.6.11
   vue-class-component: ^7.2.3
   vue-property-decorator: ^8.4.2
   vue-recaptcha-v3: ^1.9.0
   vue-router: ^3.2.0
+  vue-spinner: ^1.0.4
   vue-template-compiler: ^2.6.11
   vuelidate: ^0.7.5
   vuelidate-property-decorators: ^1.0.28
   vuex: ^3.4.0
-  vuex-module-decorators: ^1.0.1

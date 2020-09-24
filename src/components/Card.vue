@@ -9,8 +9,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class Card extends Vue {
-  @Prop({ default: "#fff" })
-  private readonly bgColor!: string;
+  @Prop({ default: "#fff" }) private readonly bgColor!: string;
 }
 </script>
 
