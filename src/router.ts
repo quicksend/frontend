@@ -12,13 +12,13 @@ const routes: RouteConfig[] = [
     path: "/",
     beforeEnter(_to, _from, next) {
       if (!accessor.user.isLoggedIn) next({ name: "login" });
-      else next({ name: "explorer" });
+      else next({ name: "files" });
     }
   },
   {
-    path: "/explorer",
-    name: "explorer",
-    component: () => import(/* webpackChunkName: "explorer" */ "./views/Explorer.vue"),
+    path: "/files",
+    name: "files",
+    component: () => import(/* webpackChunkName: "files" */ "./views/Files.vue"),
     meta: {
       loginRequired: true
     }
@@ -51,13 +51,13 @@ const router = new VueRouter({
 
 // Admin guard
 router.beforeEach((to, _from, next) => {
-  if (!accessor.user.info?.admin && to.meta.admin) next({ name: "explorer" });
+  if (!accessor.user.info?.admin && to.meta.admin) next({ name: "files" });
   else next();
 });
 
 // Guest only guard
 router.beforeEach((to, _from, next) => {
-  if (accessor.user.isLoggedIn && to.meta.guestOnly) next({ name: "explorer" });
+  if (accessor.user.isLoggedIn && to.meta.guestOnly) next({ name: "files" });
   else next();
 });
 

@@ -91,7 +91,7 @@ export default class Login extends Vue {
       })
       .then(() => {
         this.form.hideErrorMessage();
-        this.$router.push({ name: "explorer" });
+        this.$router.push({ name: "files" });
       })
       .catch(error => {
         this.form.error(error).enable();

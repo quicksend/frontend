@@ -1,14 +1,12 @@
 <template>
-  <div class="explorer">
-    Explorer
-  </div>
+  <div class="files"></div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
 @Component
-export default class Explorer extends Vue {}
+export default class Files extends Vue {}
 </script>
 
 <style lang="scss" scoped></style>
