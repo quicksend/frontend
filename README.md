@@ -1,4 +1,6 @@
-# frontend
+# Quicksend Frontend
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/d88ee1ec-40b0-4a90-9265-7c50e3bb9c90/deploy-status)](https://app.netlify.com/sites/quick-send/deploys)
 
 ## Project setup
 ```
