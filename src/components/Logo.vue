@@ -3,9 +3,9 @@
     <div class="logo__wrapper">
       <svg
         class="logo__icon"
-        xmlns="http://www.w3.org/2000/svg"
         :style="{ fill, width: `${size}px` }"
         :viewBox="`0 0 ${hideBrandName ? 112 : 452} 112`"
+        xmlns="http://www.w3.org/2000/svg"
       >
         <g
           v-if="!hideBrandName"
@@ -43,6 +43,7 @@ export default class Logo extends Vue {
 <style lang="scss" scoped>
 .logo {
   @apply flex justify-center;
+  @apply w-full;
 
   &__wrapper {
     @apply flex items-center;

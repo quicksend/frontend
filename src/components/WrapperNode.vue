@@ -3,7 +3,7 @@
 <script lang="ts">
 import { Vue } from "vue-property-decorator";
 
-export default Vue.component("v-node", {
+export default Vue.component("wrapper-node", {
   props: {
     node: {
       required: true,

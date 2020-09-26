@@ -2,14 +2,14 @@
   <div class="form__wrapper">
     <div v-if="errorMessage" class="form__errors">
       <div class="form__error">
-        <font-awesome-icon class="form__error-icon" :icon="errorIcon" size="sm" />
+        <font-awesome-icon class="form__error-icon" :icon="icons.error" size="sm" />
         <span class="form__error-message">{{ errorMessage }}</span>
       </div>
     </div>
 
     <div v-else-if="successMessage" class="form__successes">
       <div class="form__success">
-        <font-awesome-icon class="form__success-icon" :icon="successIcon" size="sm" />
+        <font-awesome-icon class="form__success-icon" :icon="icons.checkmark" size="sm" />
         <span class="form__success-message">{{ successMessage }}</span>
       </div>
     </div>
@@ -39,8 +39,11 @@ export default class VForm extends Vue {
   private errorMessage: string | null = null;
   private successMessage: string | null = null;
 
-  private get errorIcon() {
-    return faExclamationTriangle;
+  private get icons() {
+    return {
+      check: faCheck,
+      error: faExclamationTriangle
+    };
   }
 
   private get inputs() {
@@ -52,10 +55,6 @@ export default class VForm extends Vue {
     }
 
     return inputs;
-  }
-
-  private get successIcon() {
-    return faCheck;
   }
 
   disable() {

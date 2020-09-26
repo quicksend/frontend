@@ -9,21 +9,21 @@
 
       <template #start>
         <activity-bar-item name="Files" to="files">
-          <font-awesome-icon size="lg" :icon="icons.copy" />
+          <font-awesome-icon :icon="icons.copy" size="lg" />
         </activity-bar-item>
 
         <activity-bar-item name="Stream" to="stream">
-          <font-awesome-icon size="lg" :icon="icons.stream" />
+          <font-awesome-icon :icon="icons.stream" size="lg" />
         </activity-bar-item>
       </template>
 
       <template #end>
         <activity-bar-item name="User" to="@me">
-          <font-awesome-icon size="lg" :icon="icons.astronaut" />
+          <font-awesome-icon :icon="icons.astronaut" size="lg" />
         </activity-bar-item>
 
         <activity-bar-item name="Settings" to="settings">
-          <font-awesome-icon size="lg" :icon="icons.wrench" />
+          <font-awesome-icon :icon="icons.wrench" size="lg" />
         </activity-bar-item>
       </template>
     </activity-bar>
@@ -73,6 +73,11 @@ export default class DefaultLayout extends Vue {
 
   &__content {
     @apply h-full;
+    @apply pl-16;
+
+    @screen sm_max {
+      @apply pb-16 pl-0;
+    }
   }
 }
 </style>

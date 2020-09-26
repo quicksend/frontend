@@ -9,10 +9,12 @@
     />
 
     <div class="checkbox__box">
-      <font-awesome-icon class="checkbox__checkmark" size="xs" :icon="checkmarkIcon" />
+      <font-awesome-icon class="checkbox__checkmark" :icon="icons.checkmark" size="xs" />
     </div>
 
-    <label class="checkbox__label" :for="`input-${sluggedLabel}`">{{ label }}</label>
+    <label class="checkbox__label" :for="`input-${sluggedLabel}`">
+      {{ label }}
+    </label>
   </div>
 </template>
 
@@ -37,8 +39,10 @@ export default class VInput extends Vue {
 
   private readonly sluggedLabel = slugify(this.label);
 
-  private get checkmarkIcon() {
-    return faCheck;
+  private get icons() {
+    return {
+      checkmark: faCheck
+    };
   }
 
   get value() {

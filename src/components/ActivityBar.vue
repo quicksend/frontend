@@ -1,33 +1,33 @@
 <template>
   <div class="activity-bar">
     <ul class="activity-bar__items activity-bar__items--pinned">
-      <v-node
+      <wrapper-node
         v-for="(node, idx) of $slots.pinned"
         class="activity-bar__item"
-        tag="li"
         :key="idx"
         :node="node"
+        tag="li"
       />
     </ul>
 
     <nav class="activity-bar__items">
       <ul class="activity-bar__items-start">
-        <v-node
+        <wrapper-node
           v-for="(node, idx) of $slots.start"
           class="activity-bar__item"
-          tag="li"
           :key="idx"
           :node="node"
+          tag="li"
         />
       </ul>
 
       <ul class="activity-bar__items-end">
-        <v-node
+        <wrapper-node
           v-for="(node, idx) of $slots.end"
           class="activity-bar__item"
-          tag="li"
           :key="idx"
           :node="node"
+          tag="li"
         />
       </ul>
     </nav>
@@ -37,11 +37,11 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
-import VNode from "@/components/VNode.vue";
+import WrapperNode from "@/components/WrapperNode.vue";
 
 @Component({
   components: {
-    VNode
+    WrapperNode
   }
 })
 export default class ActivityBar extends Vue {}

@@ -6,8 +6,8 @@
 
     <input
       ref="input"
-      class="input__box"
       v-bind="$props"
+      class="input__box"
       :class="{ 'input__box--error': errorMessage }"
       :id="`input-${sluggedLabel}`"
       @input="$emit('input', $event.target.value)"
@@ -15,7 +15,7 @@
 
     <div v-if="errorMessage" class="input__errors">
       <div class="input__error">
-        <font-awesome-icon class="input__error-icon" size="sm" :icon="errorIcon" />
+        <font-awesome-icon class="input__error-icon" :icon="icons.error" size="sm" />
         <span class="input__error-message">{{ errorMessage }}</span>
       </div>
     </div>
@@ -58,8 +58,10 @@ export default class VInput extends Vue {
 
   private errorMessage: string | null = null;
 
-  private get errorIcon() {
-    return faExclamationTriangle;
+  private get icons() {
+    return {
+      error: faExclamationTriangle
+    };
   }
 
   get sluggedLabel() {
