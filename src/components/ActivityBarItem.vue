@@ -21,7 +21,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class ActivityBarItem extends Vue {
-  @Prop({ default: "" }) private readonly name!: string;
+  @Prop({ default: null }) private readonly name!: string;
   @Prop({ default: null }) private readonly to!: string;
 }
 </script>
